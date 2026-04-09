@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saathi Prototype</title>
+    <!-- Use Outfit for a clean, modern, slightly soft appearance -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <div id="desktop-wrapper">
+        <div id="device">
+            <div id="status-bar">
+                <span id="time">09:41</span>
+                <div class="status-icons">
+                    <i class="fa-solid fa-signal"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-battery-full"></i>
+                </div>
+            </div>
+
+            <!-- SCREEN 1: ONBOARDING -->
+            <div id="screen-onboarding" class="screen active">
+                <div class="onboarding-content">
+                    <div class="illustration-container">
+                        <div class="soft-blob blob-1"></div>
+                        <div class="soft-blob blob-2"></div>
+                        <i class="fa-solid fa-suitcase-rolling main-illustration-icon"></i>
+                    </div>
+                    <div class="text-content">
+                        <h1>Travel Without Worry</h1>
+                        <p class="subtitle">Your Bag, Always Protected</p>
+                        <p class="description">Saathi helps you find the best waiting spots and monitors your Triplock so you can relax on crowded platforms.</p>
+                    </div>
+                    <div class="onboarding-controls">
+                        <div class="dots">
+                            <span class="dot active"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <button class="btn-primary" onclick="navTo('login')">Get Started</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 2: LOGIN / SIGNUP -->
+            <div id="screen-login" class="screen">
+                <div class="header">
+                    <button class="icon-btn" onclick="navTo('onboarding')"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2>Welcome</h2>
+                </div>
+                <div class="screen-content login-content centered-content">
+                    <div class="logo-area">
+                        <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h2>Saathi</h2>
+                        <p>Secure Your Journey</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Enter Mobile Number</label>
+                        <div class="input-with-prefix">
+                            <span>+91</span>
+                            <input type="tel" placeholder="99999 99999" id="phone-input">
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary mt-auto" onclick="navTo('home')">Get OTP & Login</button>
+                </div>
+            </div>
+
+            <!-- SCREEN 3: HOME DASHBOARD -->
+            <div id="screen-home" class="screen bg-light">
+                <div class="header no-border">
+                    <div class="user-greeting">
+                        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                        <div>
+                            <p class="sub-text">Good Morning,</p>
+                            <h3 id="user-name-display">Traveler</h3>
+                        </div>
+                    </div>
+                    <button class="icon-btn glass" onclick="navTo('notifications')"><i class="fa-solid fa-bell"></i></button>
+                </div>
+
+                <div class="screen-content scrollable">
+                    <div id="pnr-entry-section" class="card mt-4">
+                        <h3>Fetch Journey Details</h3>
+                        <p class="sub-text mb-4">Enter your 10-digit PNR to get platform and coach info.</p>
+                        <input type="text" class="standard-input mb-4" placeholder="Enter PNR" value="8473928192" id="pnr-input">
+                        <button class="btn-secondary w-100" onclick="fetchPNR()">Fetch Details</button>
+                    </div>
+
+                    <div id="journey-details-section" class="hidden">
+                        <div class="train-card gradient-card">
+                            <div class="train-header">
+                                <span class="tag">CONFIRMED</span>
+                                <h4>12627 • Karnataka Exp</h4>
+                            </div>
+                            <div class="train-times">
+                                <div class="time-block">
+                                    <p class="sub-text">Departs</p>
+                                    <h2>19:20</h2>
+                                </div>
+                                <div class="time-divider">
+                                    <i class="fa-solid fa-train"></i>
+                                    <div class="line"></div>
+                                </div>
+                                <div class="time-block right">
+                                    <p class="sub-text">Platform</p>
+                                    <h2>04</h2>
+                                </div>
+                            </div>
+                            <div class="train-footer">
+                                <span><i class="fa-solid fa-ticket"></i> Coach: <strong>B2</strong></span>
+                                <span><i class="fa-solid fa-clock"></i> Time Left: <strong>45 min</strong></span>
+                            </div>
+                        </div>
+
+                        <h3 class="section-title mt-6">Suggested Waiting Spots</h3>
+                        <div class="location-card" onclick="navToMap('seating')">
+                            <div class="loc-icon bg-blue-light"><i class="fa-solid fa-bench-tree text-blue"></i></div>
+                            <div class="loc-details">
+                                <h4>Bench Zone B</h4>
+                                <p>Uncrowded • Near Coach B2</p>
+                            </div>
+                            <div class="loc-distance">
+                                <span>2 min</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="location-card" onclick="navTo('cafe')">
+                            <div class="loc-icon bg-green-light"><i class="fa-solid fa-mug-hot text-green"></i></div>
+                            <div class="loc-details">
+                                <h4>Platform Cafe</h4>
+                                <p>AC Seating • 50m away</p>
+                            </div>
+                            <div class="loc-distance">
+                                <span>4 min</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bottom Tab Bar -->
+                <div class="bottom-nav glass">
+                    <div class="nav-item active" onclick="navTo('home')"><i class="fa-solid fa-house"></i><span>Home</span></div>
+                    <div class="nav-item" onclick="navTo('tickets')"><i class="fa-solid fa-ticket"></i><span>Tickets</span></div>
+                    <div class="nav-item" onclick="navTo('connecting')"><i class="fa-solid fa-shield-halved"></i><span>Safety</span></div>
+                    <div class="nav-item" onclick="navTo('settings')"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+                </div>
+            </div>
+
+            <!-- SCREEN 4: MAP / NAVIGATION -->
+            <div id="screen-map" class="screen">
+                <div class="header float-header">
+                    <button class="icon-btn bg-white shadow" onclick="navTo('home')"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="pill-badge bg-white shadow">Platform 4 • Indoors</div>
+                </div>
+                
+                <div class="map-container">
+                    <!-- Faux Map Visualization -->
+                    <div class="map-bg"></div>
+                    <div class="map-path">
+                        <div class="user-dot"><div class="pulse"></div></div>
+                        <svg class="dotted-line" viewBox="0 0 200 400" preserveAspectRatio="none">
+                            <path d="M 100 350 Q 50 200 150 100" fill="none" stroke="#2b6cb0" stroke-width="8" stroke-dasharray="16 16" stroke-linecap="round"/>
+                        </svg>
+                        <div class="destination-pin">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div class="pin-label" id="map-pin-label">Bench Zone B</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-sheet glass">
+                    <div class="sheet-handle"></div>
+                    <h3 id="map-sheet-title">Bench Zone B</h3>
+                    <p class="sub-text mb-4" id="map-sheet-desc">Directly opposite to Coach B2 position. Relatively empty.</p>
+                    <div class="route-info mb-4">
+                        <div class="info-item"><i class="fa-solid fa-person-walking"></i> <span id="map-dist">120</span> meters</div>
+                        <div class="info-item"><i class="fa-solid fa-clock"></i> <span id="map-time">2</span> mins</div>
+                    </div>
+                    <button class="btn-primary w-100" id="map-action-btn" onclick="navTo('connecting')">I've Arrived Here</button>
+                </div>
+            </div>
+
+            <!-- SCREEN 5: DEVICE CONNECTION -->
+            <div id="screen-connecting" class="screen bg-dark">
+                <div class="header text-white no-border">
+                    <button class="icon-btn text-white" onclick="navTo('map')"><i class="fa-solid fa-xmark"></i></button>
+                    <h2>Connect Bag</h2>
+                </div>
+                
+                <div class="screen-content centered-content">
+                    <div class="radar-container">
+                        <div class="radar-circle circle-1"></div>
+                        <div class="radar-circle circle-2"></div>
+                        <div class="radar-circle circle-3"></div>
+                        <div class="device-center" id="bt-center-icon">
+                            <i class="fa-brands fa-bluetooth-b"></i>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-white mt-6" id="bt-status-text">Searching for Saathi device...</h2>
+                    <p class="text-gray-light mt-2" id="bt-sub-text">Ensure your Triplock buzzer is turned on.</p>
+
+                    <!-- Hidden by default, shown when connected -->
+                    <div id="bt-connected-info" class="hidden mt-6 w-100">
+                        <div class="device-card">
+                            <div class="flex-row">
+                                <i class="fa-solid fa-suitcase-rolling text-blue text-2xl"></i>
+                                <div class="ml-4 flex-1">
+                                    <h4 class="text-dark">Samsonite Red</h4>
+                                    <p class="sub-text">Connected</p>
+                                </div>
+                                <div class="battery-pill">
+                                    <i class="fa-solid fa-battery-three-quarters"></i> 82%
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary mt-6 w-100" onclick="navTo('Saathi')">Proceed to Safety Mode</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 6: Saathi MODE -->
+            <div id="screen-Saathi" class="screen bg-safe">
+                <div class="header text-white no-border">
+                    <button class="icon-btn text-white" onclick="navTo('home')"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2>Saathi Mode</h2>
+                    <button class="icon-btn text-white" onclick="triggerAlertDemo()"><i class="fa-solid fa-bolt"></i></button> <!-- Debug button for demo -->
+                </div>
+
+                <div class="screen-content text-center">
+                    <div class="status-badge bg-white-trans mb-6">
+                        <i class="fa-solid fa-shield-check text-green"></i> System Active
+                    </div>
+                    
+                    <h1 class="text-white size-xxl mb-2">SAFE</h1>
+                    <p class="text-white-trans size-lg mb-8">You can relax now. We are monitoring your bag.</p>
+
+                    <div class="radius-visualizer">
+                        <div class="safe-zone-circle" id="safe-zone-display">
+                            <div class="user-center-dot">You</div>
+                            <div class="bag-dot"><i class="fa-solid fa-suitcase"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="controls-card mt-auto">
+                        <div class="slider-header">
+                            <h4>Safety Radius</h4>
+                            <span class="value-display" id="radius-val">3 Meters</span>
+                        </div>
+                        <input type="range" class="custom-slider" min="2" max="5" step="0.5" value="3" id="radius-slider">
+                        <div class="slider-labels">
+                            <span>2m</span>
+                            <span>5m</span>
+                        </div>
+                        
+                        <button class="btn-outline-danger w-100 mt-6" onclick="navTo('home')">Deactivate Mode</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 7: ALERT SCREEN -->
+            <div id="screen-alert" class="screen bg-danger alert-pulse">
+                <div class="screen-content centered-content text-center text-white h-100">
+                    <div class="warning-icon-large mt-8">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h1 class="text-huge mt-6">WARNING</h1>
+                    <p class="text-xl mt-4">Your Triplock is moving <br>out of the safe zone!</p>
+                    
+                    <div class="alert-actions mt-auto w-100 mb-8">
+                        <button class="btn-white w-100 mb-4" onclick="navToMap('bag')"><i class="fa-solid fa-location-crosshairs mr-2"></i> Track Bag Live</button>
+                        <button class="btn-dark w-100" onclick="navTo('Saathi')"><i class="fa-solid fa-volume-xmark mr-2"></i> False Alarm (Dismiss)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 8: BOARDING REMINDER -->
+            <div id="screen-boarding" class="screen bg-gradient-blue text-white">
+                <div class="screen-content centered-content text-center h-100">
+                    <div class="train-animation-container">
+                        <i class="fa-solid fa-train text-huge"></i>
+                    </div>
+                    <h2 class="mt-6">Train is Approaching</h2>
+                    <p class="text-lg text-white-trans mt-2">12627 • Karnataka Exp</p>
+                    
+                    <div class="boarding-card bg-white text-dark mt-8 w-100 text-left">
+                        <div class="flex-row items-center mb-4 border-bottom pb-4">
+                            <div class="timer-box bg-blue text-white mr-4">
+                                <h3>10</h3>
+                                <span>MINS</span>
+                            </div>
+                            <div>
+                                <h4>Arriving soon</h4>
+                                <p class="sub-text">Platform 04</p>
+                            </div>
+                        </div>
+                        <p class="text-md mb-2"><strong>Move towards Coach B2</strong></p>
+                        <p class="sub-text">Your coach is approximately 50m ahead on your right.</p>
+
+                        <button class="btn-primary w-100 mt-6" onclick="navTo('home')">Start Walking</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 9: SETTINGS -->
+            <div id="screen-settings" class="screen bg-light">
+                <div class="header">
+                    <button class="icon-btn" onclick="navTo('home')"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2>Profile & Settings</h2>
+                </div>
+                
+                <div class="screen-content scrollable">
+                    <div class="user-greeting mb-6">
+                        <div class="avatar" style="width: 140px; height: 140px; font-size: 60px;"><i class="fa-solid fa-user"></i></div>
+                        <div>
+                            <h3 id="settings-name-display" class="mb-2">Your Name</h3>
+                            <p class="tag" style="background:#2B6CB0;color:white;font-size:24px;display:inline-block">Premium Guard</p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-6">
+                        <h3 class="mb-4">Personal Details</h3>
+                        <div class="form-group mb-4">
+                            <label>Full Name</label>
+                            <input type="text" id="settings-name-input" class="standard-input" value="Your Name">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label>Mobile Number</label>
+                            <div class="input-with-prefix">
+                                <span>+91</span>
+                                <input type="tel" value="98765 43210">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" class="standard-input" value="user@example.com">
+                        </div>
+                    </div>
+
+                    <div class="card mb-6">
+                        <h3 class="mb-4">Emergency Contact</h3>
+                        <p class="sub-text mb-4">We'll alert them if your bag alarm sounds for more than a minute.</p>
+                        <div class="form-group mb-4">
+                            <label>Contact Name</label>
+                            <input type="text" class="standard-input" value="Family">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="tel" class="standard-input" value="91234 56789">
+                        </div>
+                    </div>
+
+                    <div class="card mb-6">
+                        <h3 class="mb-4">App Preferences</h3>
+                        <div class="flex-row justify-between items-center mb-4">
+                            <div>
+                                <h4 style="margin:0;">Dark Mode</h4>
+                                <p class="sub-text">Switch to a darker theme</p>
+                            </div>
+                            <!-- Simple custom toggle switch inside Settings -->
+                            <label style="position:relative; width:100px; height:50px; display:inline-block; background:#E2E8F0; border-radius:50px; cursor:pointer;" onclick="toggleTheme()">
+                                <div id="theme-knob" style="position:absolute; top:4px; left:4px; width:42px; height:42px; background:white; border-radius:50%; transition:0.3s; box-shadow:0 2px 4px rgba(0,0,0,0.2);"></div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary w-100 mb-4" onclick="saveSettings()">Save Updates</button>
+                    <button class="btn-outline-danger w-100 text-danger" style="border-color:#E53E3E;color:#E53E3E;" onclick="navTo('login')">Log Out</button>
+                </div>
+                <!-- Bottom Tab Bar -->
+                <div class="bottom-nav glass">
+                    <div class="nav-item" onclick="navTo('home')"><i class="fa-solid fa-house"></i><span>Home</span></div>
+                    <div class="nav-item" onclick="navTo('tickets')"><i class="fa-solid fa-ticket"></i><span>Tickets</span></div>
+                    <div class="nav-item" onclick="navTo('connecting')"><i class="fa-solid fa-shield-halved"></i><span>Safety</span></div>
+                    <div class="nav-item active" onclick="navTo('settings')"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+                </div>
+            </div>
+
+            <!-- SCREEN 10: TICKETS -->
+            <div id="screen-tickets" class="screen bg-light">
+                <div class="header">
+                    <button class="icon-btn" onclick="navTo('home')"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2>My Tickets</h2>
+                </div>
+                <div class="screen-content scrollable">
+                    <div class="train-card gradient-card mb-4" style="background: linear-gradient(135deg, #047857 0%, #1A365D 100%);">
+                        <div class="train-header">
+                            <span class="tag">UPCOMING</span>
+                            <h4>12627 • Karnataka Exp</h4>
+                        </div>
+                        <div class="train-footer mt-4" style="background: rgba(255,255,255,0.1);">
+                            <span><i class="fa-solid fa-user"></i> 1 Passenger • Confirmed</span>
+                        </div>
+                        <div class="text-center mt-6">
+                            <div style="background:white; padding:24px; display:inline-block; border-radius:16px;">
+                                <i class="fa-solid fa-qrcode" style="font-size:120px; color:#1A202C;"></i>
+                            </div>
+                            <p class="mt-4 text-white">Scan at boarding</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bottom Tab Bar -->
+                <div class="bottom-nav glass">
+                    <div class="nav-item" onclick="navTo('home')"><i class="fa-solid fa-house"></i><span>Home</span></div>
+                    <div class="nav-item active" onclick="navTo('tickets')"><i class="fa-solid fa-ticket"></i><span>Tickets</span></div>
+                    <div class="nav-item" onclick="navTo('connecting')"><i class="fa-solid fa-shield-halved"></i><span>Safety</span></div>
+                    <div class="nav-item" onclick="navTo('settings')"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+                </div>
+            </div>
+
+            <!-- SCREEN 11: PLATFORM CAFE -->
+            <div id="screen-cafe" class="screen bg-light">
+                <div class="header float-header">
+                    <button class="icon-btn bg-white shadow" onclick="navTo('home')"><i class="fa-solid fa-arrow-left"></i></button>
+                </div>
+                <div style="height: 400px; background: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1080') center/cover;"></div>
+                <div class="screen-content" style="border-radius: 60px 60px 0 0; background: var(--bg-light); margin-top: -60px; padding-top: 60px;">
+                    <div class="flex-row justify-between items-center mb-4">
+                        <h2 style="font-size: 56px;">Platform Cafe</h2>
+                        <div class="tag" style="background:#047857;color:white;font-size:24px;"><i class="fa-solid fa-star"></i> 4.8</div>
+                    </div>
+                    <p class="sub-text mb-6">Enjoy premium filter coffee and fresh snacks while you wait for your train.</p>
+                    
+                    <div class="card mb-6">
+                        <div class="flex-row items-center mb-4">
+                            <i class="fa-solid fa-wifi text-blue mr-4" style="font-size:32px;"></i>
+                            <h4 style="margin:0;">Free High-Speed Wi-Fi</h4>
+                        </div>
+                        <div class="flex-row items-center mb-4">
+                            <i class="fa-solid fa-plug text-blue mr-4" style="font-size:32px;"></i>
+                            <h4 style="margin:0;">Charging Ports at Every Table</h4>
+                        </div>
+                        <div class="flex-row items-center">
+                            <i class="fa-solid fa-snowflake text-blue mr-4" style="font-size:32px;"></i>
+                            <h4 style="margin:0;">Air Conditioned Seating</h4>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary w-100 mt-auto" onclick="navToMap('cafe')"><i class="fa-solid fa-location-arrow mr-2"></i> Navigate to Cafe</button>
+                </div>
+            </div>
+
+            <!-- SCREEN 12: NOTIFICATIONS -->
+            <div id="screen-notifications" class="screen bg-light">
+                <div class="header glass" style="position: sticky; top:0; z-index: 10; padding-bottom: 32px; height: auto;">
+                    <button class="icon-btn glass" onclick="navTo('home')"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 style="margin:0;">Updates</h2>
+                </div>
+                <div class="screen-content scrollable" style="padding-top: 32px;">
+                    <div class="card mb-4" style="border-left: 8px solid var(--color-primary);">
+                        <h4 class="mb-2">Triplock Connected</h4>
+                        <p class="sub-text">Your Triplock device (ID: #8921) connected successfully. Battery at 92%.</p>
+                        <p class="text-gray-light mt-2" style="font-size: 24px;">Just now</p>
+                    </div>
+                    <div class="card mb-4 glass">
+                        <h4 class="mb-2">Cafe Saathi Discount</h4>
+                        <p class="sub-text">Show your active Saathi session at the Platform Cafe for 15% off filter coffee.</p>
+                        <p class="text-gray-light mt-2" style="font-size: 24px;">12 mins ago</p>
+                    </div>
+                    <div class="card mb-4" style="border-left: 8px solid var(--color-secondary);">
+                        <h4 class="mb-2">Platform Update</h4>
+                        <p class="sub-text">Train 12627 Karnataka Exp will arrive at Platform 4. ETA: 45 mins.</p>
+                        <p class="text-gray-light mt-2" style="font-size: 24px;">1 hr ago</p>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /#device -->
+    </div> <!-- /#desktop-wrapper -->
+</body>
+</html>
